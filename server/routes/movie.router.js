@@ -7,6 +7,7 @@ router.get('/', (req, res) => {
   const query = `SELECT * FROM movies ORDER BY "title" ASC`;
   pool.query(query)
     .then( result => {
+      console.log('GET ALL MOVIES ORDERED BY TITLE SUCCESS');
       res.send(result.rows);
     })
     .catch(err => {
@@ -28,7 +29,7 @@ router.post('/', (req, res) => {
   pool.query(insertMovieQuery, [req.body.title, req.body.poster, req.body.description])
   .then(result => {
     console.log('New Movie Id:', result.rows[0].id); //ID IS HERE!
-    
+
     const createdMovieId = result.rows[0].id
 
     // Now handle the genre reference
