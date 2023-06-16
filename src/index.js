@@ -86,8 +86,6 @@ function* rootSaga() {
 
 }
 
-
-
 // =====================  Create sagaMiddleware  ==================================//
 
 const sagaMiddleware = createSagaMiddleware();
