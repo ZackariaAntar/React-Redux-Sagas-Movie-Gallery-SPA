@@ -11,6 +11,10 @@ import createSagaMiddleware from 'redux-saga';
 import { takeLatest, takeEvery, put } from 'redux-saga/effects';
 import axios from 'axios';
 
+import { useHistory } from 'react-router-dom';
+
+
+
 // =========================  MOVIE REDUCER  ===============================//
 //              Used to store movies returned from the server
 
@@ -34,7 +38,14 @@ const genres = (state = [], action) => {
     }
 }
 
-// =======================   FETCH SAGA   ==============================//
+const details = (state = [], action) => {
+    if (action.type === 'SET_DETAILS'){
+        return action.payload;
+    }
+    return state;
+}
+
+// =======================   FETCH MOVIES SAGA   ==============================//
 //                  get all movies from the DB
 
 function* fetchAllMovies() {
@@ -49,12 +60,30 @@ function* fetchAllMovies() {
     }
 
 }
+// =======================   FETCH GENRES SAGA   ==============================//
+//                  get all genres for a specific movie from the DB
+
+function* fetchGenres(action) {
+
+    try {
+        const genres = yield axios.get(`/api/genre/${action.payload.id}`);
+        console.log('get genre data:', genres.data);
+        yield put({ type: 'SET_GENRES', payload: genres.data});
+        yield put({ type: 'SET_DETAILS', payload: action.payload});
+
+    } catch {
+        console.log('get GENRES error');
+    }
+
+}
 
 // =========================    ROOT SAGA    ===============================//
 //              Create the rootSaga generator function
 
 function* rootSaga() {
     yield takeEvery('FETCH_MOVIES', fetchAllMovies);
+    yield takeLatest('FETCH_GENRES', fetchGenres);
+
 }
 
 
@@ -71,6 +100,7 @@ const storeInstance = createStore(
     combineReducers({
         movies,
         genres,
+        details,
     }),
     // Add sagaMiddleware to our store
     applyMiddleware(sagaMiddleware, logger),
