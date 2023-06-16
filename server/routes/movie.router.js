@@ -16,6 +16,20 @@ router.get('/', (req, res) => {
     })
 
 });
+router.get('/only/:id', (req, res) => {
+  const filmId = req.params.id
+  const query = `SELECT * FROM movies WHERE id = $1 ASC`;
+  pool.query(query, [filmId])
+    .then( result => {
+      console.log('GET ALL MOVIES ORDERED BY TITLE SUCCESS');
+      res.send(result.rows);
+    })
+    .catch(err => {
+      console.log('ERROR: Get all movies', err);
+      res.sendStatus(500)
+    })
+
+});
 
 router.post('/', (req, res) => {
   console.log(req.body);
