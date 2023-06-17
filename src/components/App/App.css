@@ -1,24 +1,24 @@
 .App {
   text-align: center;
+  background-color: azure;
 }
 
 
-.App-header {
-  background-color: #222;
-  height: 150px;
+.header {
+  background-color: #063700;
+  height: 100px;
   padding: 20px;
+  border-bottom-left-radius: 6px ;
+  border-bottom-right-radius: 6px ;
+  box-shadow: 5px 10px 8px rgb(69, 69, 69);
   color: white;
 }
 
-.App-title {
-  font-size: 1.5em;
+.title {
+  font-size: 2.75rem;
 }
 
-.App-intro {
-  font-size: large;
+.page-title {
+  font-size: 2.5rem;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
