@@ -6,7 +6,6 @@ import {
 	Container,
 	Grid,
 	Card,
-	CardContent,
 	CardActionArea,
 	CardMedia,
 	Typography,
@@ -64,20 +63,7 @@ function MovieList() {
 						</Grid>
 					))}
 				</Grid>
-				{movies.map((movie) => {
-					return (
-						<div key={movie.id}>
-							<h3>{movie.title}</h3>
-							<p>
-								<Link to={"/details"}>
-									<img src={movie.poster} alt={movie.title} />
-								</Link>
-							</p>
-						</div>
-					);
-				})}
 			</Container>
-			<section className="movies"></section>
 		</main>
 	);
 }
