@@ -2,7 +2,15 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './MovieList.css'
 import { Link} from "react-router-dom";
-import {Container, Grid, Card, CardContent, CardMedia, Typography} from '@mui/material'
+import {
+	Container,
+	Grid,
+	Card,
+	CardContent,
+	CardActionArea,
+	CardMedia,
+	Typography,
+} from "@mui/material";
 
 
 function MovieList() {
@@ -30,8 +38,9 @@ function MovieList() {
 								raised
 								sx={{
 									margin: "0 auto",
-									padding: 0.5,
+									paddingBottom: 4.5,
 								}}
+								onClick={() => goToDetails(movie)}
 							>
 								<Typography
 									gutterBottom
@@ -40,23 +49,24 @@ function MovieList() {
 								>
 									{movie.title}
 								</Typography>
-								<CardMedia
-									component="img"
-									sx={{
-										height: 375,
-										objectFit: "contain",
-									}}
-									image={movie.poster}
-									title={movie.title}
-								/>
-								<CardContent></CardContent>
+								<CardActionArea component={Link} to="/details">
+									<CardMedia
+										component={"img"}
+										sx={{
+											height: 375,
+											objectFit: "contain",
+										}}
+										image={movie.poster}
+										title={movie.title}
+									/>
+								</CardActionArea>
 							</Card>
 						</Grid>
 					))}
 				</Grid>
 				{movies.map((movie) => {
 					return (
-						<div key={movie.id} onClick={() => goToDetails(movie)}>
+						<div key={movie.id}>
 							<h3>{movie.title}</h3>
 							<p>
 								<Link to={"/details"}>
