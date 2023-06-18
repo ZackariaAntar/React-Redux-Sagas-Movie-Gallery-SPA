@@ -11,11 +11,8 @@ import createSagaMiddleware from 'redux-saga';
 import { takeLatest, takeEvery, put } from 'redux-saga/effects';
 import axios from 'axios';
 
-
-
-
 // =========================  MOVIE REDUCER  ===============================//
-//              Used to store movies returned from the server
+// Used to store all movie data from the DB as an array of objects returned by the server
 
 const movies = (state = [], action) => {
     switch (action.type) {
@@ -26,7 +23,7 @@ const movies = (state = [], action) => {
     }
 }
 // ===================  GENRE REDUCER  ===========================//
-//              Used to store the movie genres
+//  Used to store the movie's genres from the DB as an array of objects returned by the server
 
 const genres = (state = [], action) => {
     switch (action.type) {
@@ -36,6 +33,8 @@ const genres = (state = [], action) => {
             return state;
     }
 }
+// ===================  DETAILS REDUCER  ===========================//
+//  Stores the sequestered movie data as an object from the Movie List page to be used on the details page
 
 const details = (state = [], action) => {
     if (action.type === 'SET_DETAILS'){
@@ -43,12 +42,10 @@ const details = (state = [], action) => {
     }
     return state;
 }
-
 // =======================   FETCH MOVIES SAGA   ==============================//
-//                  get all movies from the DB
+//  Requesting data for every movie from the movies table in the DB via the server
 
 function* fetchAllMovies() {
-
     try {
         const movies = yield axios.get('/api/movie');
         console.log('get all:', movies.data);
@@ -57,18 +54,15 @@ function* fetchAllMovies() {
     } catch {
         console.log('get all error');
     }
-
 }
 // =======================   FETCH GENRES SAGA   ==============================//
-//  using the "movie" object dispatched from clicking on a particular fromn the movielist
-//  we first request the genres associated with that movie from the DB using that movie object's id as action.payload.id
-//  then we store that response in the genres reducer as genres.data and return it via the store.
+//  Using the sequestered movie object dispatched here by clicking on that movie's poster on the Movie List Page,
+//      we first send a request for that movie's genres from the DB using its object's id as "action.payload.id",
+//      and storing that response in the genres reducer as genres.data to be returned via the store.
 
-// THEN, store the clicked on movie's object in the details reducer and return it via the store. 
-
+// THEN, we store that movie's object in the details reducer to be returned via the store.
 
 function* fetchGenres(action) {
-
     try {
         const genres = yield axios.get(`/api/genre/${action.payload.id}`);
         console.log('get genre data:', genres.data);
@@ -78,23 +72,18 @@ function* fetchGenres(action) {
     } catch {
         console.log('get GENRES error');
     }
-
 }
-
 // =========================    ROOT SAGA    ===============================//
-//              Create the rootSaga generator function
+//  Create the rootSaga generator function to handle routing dispatches from the app side to the necessary generator functions on this file.
 
 function* rootSaga() {
     yield takeEvery('FETCH_MOVIES', fetchAllMovies);
     yield takeLatest('FETCH_GENRES', fetchGenres);
 
 }
-
 // =====================  Create sagaMiddleware  ==================================//
 
 const sagaMiddleware = createSagaMiddleware();
-
-
 // ====================     STORE    =========================//
 //          Create one store that all components can use
 
@@ -107,11 +96,9 @@ const storeInstance = createStore(
     // Add sagaMiddleware to our store
     applyMiddleware(sagaMiddleware, logger),
 );
-
 // =====================   Pass rootSaga into our sagaMiddleware  ========================//
 
 sagaMiddleware.run(rootSaga);
-
 // ======================================================================//
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
