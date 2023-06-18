@@ -38,6 +38,7 @@ function MovieList() {
 								sx={{
 									margin: "0 auto",
 									paddingBottom: 4.5,
+                                    borderRadius: 4
 								}}
 								onClick={() => goToDetails(movie)}
 							>
@@ -45,6 +46,7 @@ function MovieList() {
 									gutterBottom
 									variant="h5"
 									component="div"
+                                    sx={{mt:2}}
 								>
 									{movie.title}
 								</Typography>
