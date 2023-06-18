@@ -41,7 +41,7 @@ function DetailsPage() {
 
 	return (
 		<>
-			<h1>Details</h1>
+			<h1 className="page-title">Details</h1>
             <Button component={Link} to="/" variant="contained" sx={{mb:3}}>
                 BACK
             </Button>
@@ -53,6 +53,7 @@ function DetailsPage() {
 						width: 650,
 						margin: "0 auto",
 						padding: "0.1em",
+                        borderRadius: 4,
 					}}
 				>
 					<CardContent>
