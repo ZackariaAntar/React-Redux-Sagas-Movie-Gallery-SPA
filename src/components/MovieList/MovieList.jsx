@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import './MovieList.css'
-import { Link} from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./MovieList.css";
+import { Link } from "react-router-dom";
 import {
 	Container,
 	Grid,
@@ -11,22 +11,28 @@ import {
 	Typography,
 } from "@mui/material";
 
-
 function MovieList() {
-    const dispatch = useDispatch();
-    const movies = useSelector(store => store.movies);
+	// enbling dispatch functionality
+	const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch({ type: 'FETCH_MOVIES' });
-    }, []);
+	// bringing in the movies reducer from the store
+	const movies = useSelector((store) => store.movies);
 
-    const goToDetails = (film) =>{
-        dispatch({type: 'FETCH_GENRES', payload: film})
-    }
+	// preventing an infinite loop of requesting movie data by limiting request only on page load.
+	useEffect(() => {
+		dispatch({ type: "FETCH_MOVIES" });
+	}, []);
 
+	// function to cpature specific movie data for display on the Details Page
+	const sequesterMovieData = (film) => {
+		dispatch({ type: "FETCH_GENRES", payload: film });
+	};
+	// rendering DOM elements:
+	// registering the sequesterMovieData click event to the parent Card component and routing event to the CardActionArea to facilitate sync/async event process resolution
+	// modeled below:
+	//  (((capture object data -> dispatch object data to GENRES SAGA) -> (use dispatched data in axios request -> store returned genre data -> store captured object)) --> (ROUTE to /details))
 
-
-    return (
+	return (
 		<main>
 			<h1 className="page-title">Movie List</h1>
 			<Container maxWidth="xl">
@@ -38,15 +44,15 @@ function MovieList() {
 								sx={{
 									margin: "0 auto",
 									paddingBottom: 4.5,
-                                    borderRadius: 4
+									borderRadius: 4,
 								}}
-								onClick={() => goToDetails(movie)}
+								onClick={() => sequesterMovieData(movie)}
 							>
 								<Typography
 									gutterBottom
 									variant="h5"
 									component="div"
-                                    sx={{mt:2}}
+									sx={{ mt: 2 }}
 								>
 									{movie.title}
 								</Typography>
