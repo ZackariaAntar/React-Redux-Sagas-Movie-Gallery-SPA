@@ -19,10 +19,15 @@ import  ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
 
 function DetailsPage() {
+
+    // bringing in the details and genres reducers from the store.
     const details = useSelector(store => store.details)
     const genres = useSelector(store => store.genres)
 
+    // setting up local state to support Collapse toggling logic
     const [expanded, setExpanded] = useState(false);
+
+    // creating conditional rendering logic to handle styling of ExpandMoreIcon Button when it is clicked.
     const ExpandMore = styled((props) => {
 		const { expand, ...other } = props;
 		return <IconButton {...other} />;
@@ -33,12 +38,14 @@ function DetailsPage() {
 			duration: theme.transitions.duration.shortest,
 		}),
 	}));
+
+    // function to handle toggling
     	const expandIt = () => {
 			setExpanded(!expanded);
 		};
 
 
-
+    // rendering DOM elements and assigning appropriate events to those elements.
 	return (
 		<>
 			<h1 className="page-title">Details</h1>
