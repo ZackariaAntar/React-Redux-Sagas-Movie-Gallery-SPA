@@ -1,29 +1,32 @@
 import { useSelector } from "react-redux";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import {
 	Container,
 	Grid,
 	Card,
 	CardContent,
-    CardActions,
+	CardActions,
 	CardMedia,
 	Typography,
 	Collapse,
 	IconButton,
-    Button
-
+	Button,
 } from "@mui/material";
 
-import  ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
 
 function DetailsPage() {
-    const details = useSelector(store => store.details)
-    const genres = useSelector(store => store.genres)
+	// bringing in the details and genres reducers from the store.
+	const details = useSelector((store) => store.details);
+	const genres = useSelector((store) => store.genres);
 
-    const [expanded, setExpanded] = useState(false);
-    const ExpandMore = styled((props) => {
+	// setting up local state to support Collapse toggling logic
+	const [expanded, setExpanded] = useState(false);
+
+	// creating conditional rendering logic to handle styling of ExpandMoreIcon Button when it is clicked.
+	const ExpandMore = styled((props) => {
 		const { expand, ...other } = props;
 		return <IconButton {...other} />;
 	})(({ theme, expand }) => ({
@@ -33,18 +36,19 @@ function DetailsPage() {
 			duration: theme.transitions.duration.shortest,
 		}),
 	}));
-    	const expandIt = () => {
-			setExpanded(!expanded);
-		};
 
+	// function to handle toggling
+	const expandIt = () => {
+		setExpanded(!expanded);
+	};
 
-
+	// rendering DOM elements and assigning appropriate events to those elements.
 	return (
 		<>
 			<h1 className="page-title">Details</h1>
-            <Button component={Link} to="/" variant="contained" sx={{mb:3}}>
-                BACK
-            </Button>
+			<Button component={Link} to="/" variant="contained" sx={{ mb: 3 }}>
+				BACK
+			</Button>
 			<Container maxWidth="md">
 				<Card
 					raised
@@ -53,7 +57,7 @@ function DetailsPage() {
 						width: 650,
 						margin: "0 auto",
 						padding: "0.1em",
-                        borderRadius: 4,
+						borderRadius: 4,
 					}}
 				>
 					<CardContent>
@@ -62,11 +66,11 @@ function DetailsPage() {
 					<CardContent sx={{ textAlign: "left" }}>
 						<CardMedia
 							component="img"
-							sx={{objectFit: "contain", height: 450 }}
+							sx={{ objectFit: "contain", height: 450 }}
 							image={details.poster}
 							alt={details.title}
 						/>
-						<CardContent sx={{mb:-7, mr:4.3}} align="end">
+						<CardContent sx={{ mb: -7, mr: 4.3 }} align="end">
 							<Typography>Genres:</Typography>
 						</CardContent>
 						<CardActions>
@@ -85,17 +89,14 @@ function DetailsPage() {
 							unmountOnExit
 							align="start"
 						>
-							<Grid
-								container
-								justifyContent="center"
-							>
+							<Grid container justifyContent="center">
 								{genres.map((genre) => (
 									<Grid
 										item
 										xs={4}
-										sx={{ textAlign: "center", mb:5 }}
+										sx={{ textAlign: "center", mb: 5 }}
 									>
-										<Typography  variant="h4">
+										<Typography variant="h4">
 											{genre.category}
 										</Typography>
 									</Grid>
@@ -113,5 +114,4 @@ function DetailsPage() {
 	);
 }
 
-
-export default DetailsPage
+export default DetailsPage;
