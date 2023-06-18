@@ -1,24 +1,21 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const pool = require('../modules/pool')
-
+const pool = require("../modules/pool");
 
 // endpoint from fetchAllMovies axios request
 // requests all data from the movies table in the database
 // returns data as an array of objects to the fetchAllMovies Saga
-router.get('/', (req, res) => {
-
-  const query = `SELECT * FROM movies ORDER BY "title" ASC`;
-  pool.query(query)
-    .then( result => {
-      console.log('GET ALL MOVIES ORDERED BY TITLE SUCCESS');
-      res.send(result.rows);
-    })
-    .catch(err => {
-      console.log('ERROR: Get all movies', err);
-      res.sendStatus(500)
-    })
-
+router.get("/", (req, res) => {
+	const query = `SELECT * FROM movies ORDER BY "title" ASC`;
+	pool.query(query)
+		.then((result) => {
+			console.log("GET ALL MOVIES ORDERED BY TITLE SUCCESS");
+			res.send(result.rows);
+		})
+		.catch((err) => {
+			console.log("ERROR: Get all movies", err);
+			res.sendStatus(500);
+		});
 });
 
 //======= POST TO BE USED IN A FUTURE FEATURE BRANCH ========//
