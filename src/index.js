@@ -11,7 +11,6 @@ import createSagaMiddleware from 'redux-saga';
 import { takeLatest, takeEvery, put } from 'redux-saga/effects';
 import axios from 'axios';
 
-import { useHistory } from 'react-router-dom';
 
 
 
@@ -61,7 +60,12 @@ function* fetchAllMovies() {
 
 }
 // =======================   FETCH GENRES SAGA   ==============================//
-//                  get all genres for a specific movie from the DB
+//  using the "movie" object dispatched from clicking on a particular fromn the movielist
+//  we first request the genres associated with that movie from the DB using that movie object's id as action.payload.id
+//  then we store that response in the genres reducer as genres.data and return it via the store.
+
+// THEN, store the clicked on movie's object in the details reducer and return it via the store. 
+
 
 function* fetchGenres(action) {
 
